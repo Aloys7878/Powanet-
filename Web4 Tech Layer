@@ -1,0 +1,6 @@
+export const POWANET_CHAIN = {
+  name: "POWANET QuantumChain",
+  type: "Hybrid Web3-Web4",
+  networkId: 314159,
+  api: "https://api.powanet.global",
+};
