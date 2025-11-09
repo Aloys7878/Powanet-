@@ -1,0 +1,9 @@
+export const GCV_RATE = 314159; // 1 π = 314,159 USD
+
+export const encryptData = (data) => {
+  return btoa(JSON.stringify({ data, qss: "QuantumAES-512" }));
+};
+export const decryptData = (encoded) => {
+  const obj = JSON.parse(atob(encoded));
+  return obj.data;
+};
