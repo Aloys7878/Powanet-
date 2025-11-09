@@ -1,0 +1,25 @@
+.app-root {
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+.theme-dark {
+  background: linear-gradient(135deg, #000814, #001d3d);
+  color: #fff;
+}
+
+.theme-light {
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+  color: #111;
+}
+
+.btn {
+  background: #0070f3;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+}
