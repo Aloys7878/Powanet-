@@ -1,0 +1,5 @@
+export const GCV_RATE = 314159;
+
+export function convertPiToUSD(piValue) {
+  return piValue * GCV_RATE;
+}
