@@ -1,0 +1,8 @@
+{
+  "version": "3.0 Quantum Global Edition",
+  "pi_price_gcv_usd": 314159,
+  "powa_token_base_usd": 500,
+  "networks_total": 25,
+  "countries_total": 259,
+  "default_mode": "mixed"
+}
