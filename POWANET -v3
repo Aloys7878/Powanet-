@@ -1,0 +1,13 @@
+export default async function handler(req, res) {
+  const { prompt } = req.body || {};
+  if (!prompt) return res.status(400).json({ error: "No prompt" });
+
+  // Demo fallback replies (safe, no key needed)
+  const lower = prompt.toLowerCase();
+  if (lower.includes("hello") || lower.includes("hi")) return res.status(200).json({ reply: "Hello! I'm EGO, your POWANET assistant (demo)." });
+  if (lower.includes("pi") || lower.includes("price")) return res.status(200).json({ reply: `1 π ≈ $${process.env.PI_PRICE || 314159} (GCV demo)` });
+  // Add more canned logic as needed
+
+  // If you want production AI, set OPENAI_API_KEY in host env and implement call here.
+  return res.status(200).json({ reply: "EGO (demo): received. Configure OPENAI_API_KEY to enable live AI." });
+}
