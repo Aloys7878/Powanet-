@@ -1,0 +1,17 @@
+export default function EcoImpact() {
+  const stats = {
+    energySaved: "2.5M kWh",
+    treesPlanted: "154K",
+    waterCleaned: "1.2B L",
+  };
+  return (
+    <div className="eco-impact">
+      <h3>🌍 Global Eco Impact</h3>
+      <ul>
+        <li>⚡ Energy Saved: {stats.energySaved}</li>
+        <li>🌳 Trees Planted: {stats.treesPlanted}</li>
+        <li>💧 Water Cleaned: {stats.waterCleaned}</li>
+      </ul>
+    </div>
+  );
+}
