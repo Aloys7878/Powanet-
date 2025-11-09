@@ -1,0 +1,7 @@
+<div className="wallet-panel">
+  <h3>💳 POWANET Wallet</h3>
+  <p>Pi Balance: {formatPi(balances.mainnet.pi)}</p>
+  <p>POWA Tokens: {balances.mainnet.powa}</p>
+  <p>USD Value: ${balances.mainnet.usd.toLocaleString()}</p>
+  <p>Mobile Money (MTN/Airtel): ${balances.mobileMoney.mtn + balances.mobileMoney.airtel}</p>
+</div>
