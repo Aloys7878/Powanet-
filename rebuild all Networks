@@ -1,0 +1,48 @@
+import React from "react";
+
+const networks = [
+  { name: "HealthNet", color: "#ff4d6d" },
+  { name: "EcoNet", color: "#06d6a0" },
+  { name: "EduNet", color: "#ffd166" },
+  { name: "AgriNet", color: "#8ac926" },
+  { name: "FinNet", color: "#118ab2" },
+  { name: "GovNet", color: "#073b4c" },
+  { name: "TechNet", color: "#00bbf9" },
+  { name: "TradeNet", color: "#8338ec" },
+  { name: "EnergyNet", color: "#ffb703" },
+  { name: "CityNet", color: "#219ebc" },
+  { name: "TransNet", color: "#48cae4" },
+  { name: "WaterNet", color: "#0077b6" },
+  { name: "FoodNet", color: "#ff6b6b" },
+  { name: "SafeNet", color: "#90e0ef" },
+  { name: "ComNet", color: "#3a86ff" },
+  { name: "BizNet", color: "#6a4c93" },
+  { name: "ArtNet", color: "#f72585" },
+  { name: "FaithNet", color: "#7209b7" },
+  { name: "MediaNet", color: "#b5179e" },
+  { name: "BuildNet", color: "#f77f00" },
+  { name: "AirNet", color: "#4cc9f0" },
+  { name: "SeaNet", color: "#4361ee" },
+  { name: "AIHub", color: "#3a0ca3" },
+  { name: "CryptoNet", color: "#560bad" },
+  { name: "PeaceNet", color: "#80ed99" },
+];
+
+export function NetworkGrid() {
+  return (
+    <section className="network-grid">
+      <h2 className="text-xl font-bold mb-3">🌐 Global Networks</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {networks.map((n, i) => (
+          <div
+            key={i}
+            className="rounded-2xl p-3 text-center font-semibold text-white shadow-lg transform transition hover:scale-105"
+            style={{ background: n.color }}
+          >
+            {n.name}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
