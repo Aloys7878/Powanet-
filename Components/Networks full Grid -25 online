@@ -1,0 +1,23 @@
+import React from "react";
+
+const networks = [
+  "HealthNet", "EcoNet", "EduNet", "AgriNet", "FinNet", "GovNet", "TechNet", "TradeNet", "EnergyNet", "CityNet",
+  "TransNet", "WaterNet", "FoodNet", "SafeNet", "ComNet", "BizNet", "ArtNet", "FaithNet", "MediaNet", "BuildNet",
+  "AirNet", "SeaNet", "AIHub", "CryptoNet", "PeaceNet"
+];
+
+export function NetworkGrid() {
+  return (
+    <section className="networks">
+      <h2>🌍 Connected Networks</h2>
+      <div className="grid">
+        {networks.map((net) => (
+          <div key={net} className="card">
+            <h3>{net}</h3>
+            <p>Status: ✅ Online</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
