@@ -1,0 +1,41 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
+const actions = [
+  { name: "Send", desc: "Transfer Pi or POWA instantly", icon: "💸", color: "#22C55E" },
+  { name: "Earn", desc: "Complete missions, earn rewards", icon: "🏆", color: "#FACC15" },
+  { name: "Learn", desc: "AI courses & tech tutorials", icon: "🎓", color: "#3B82F6" },
+  { name: "Trade", desc: "Marketplace for local & global goods", icon: "🛒", color: "#EC4899" },
+  { name: "Grow", desc: "Track eco impact & progress", icon: "🌱", color: "#10B981" },
+];
+
+export default function DailyActions() {
+  const [progress, setProgress] = useState(0);
+
+  return (
+    <div className="p-4 grid grid-cols-2 gap-4">
+      {actions.map((act, i) => (
+        <motion.div
+          key={i}
+          whileTap={{ scale: 0.97 }}
+          className="p-4 rounded-2xl shadow-lg text-center text-white"
+          style={{
+            background: `linear-gradient(135deg, ${act.color}, #111)`,
+          }}
+          onClick={() => setProgress((p) => Math.min(p + 20, 100))}
+        >
+          <div className="text-3xl mb-2">{act.icon}</div>
+          <h3 className="text-lg font-semibold">{act.name}</h3>
+          <p className="text-sm opacity-80">{act.desc}</p>
+          <div className="mt-2 w-full bg-white/20 h-2 rounded-full">
+            <div
+              className="h-2 rounded-full bg-white"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <p className="text-xs mt-1">{progress}% complete</p>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
