@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "POWANET Quantum",
+    "slug": "powanet-quantum",
+    "version": "3.6.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#001133"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#001133"
+      },
+      "package": "com.powanet.global"
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    }
+  }
+}
