@@ -1,0 +1,14 @@
+import React, { useState } from "react";
+
+export function DailyActions() {
+  const [done, setDone] = useState(false);
+  return (
+    <section className="daily">
+      <h2>🎯 Daily Action</h2>
+      <p>Build & Support Global Networks Daily</p>
+      <button onClick={() => setDone(true)} disabled={done}>
+        {done ? "✅ Completed" : "Start Action"}
+      </button>
+    </section>
+  );
+}
