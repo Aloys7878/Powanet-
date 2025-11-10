@@ -1,0 +1,26 @@
+import React, { useState } from "react";
+
+export function EgoChat() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+
+  const sendMessage = () => {
+    if (!input.trim()) return;
+    const reply = "EGO 🤖: I’m here to guide your POWANET journey globally!";
+    setMessages([...messages, "You: " + input, reply]);
+    setInput("");
+  };
+
+  return (
+    <section className="ego-chat">
+      <h2>🧠 EGO Assistant (AI Voice+Text)</h2>
+      <div className="chat-box">
+        {messages.map((m, i) => (
+          <div key={i} className="msg">{m}</div>
+        ))}
+      </div>
+      <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask EGO..." />
+      <button onClick={sendMessage}>Send</button>
+    </section>
+  );
+}
