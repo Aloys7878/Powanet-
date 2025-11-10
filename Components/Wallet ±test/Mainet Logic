@@ -1,0 +1,23 @@
+import React, { useState } from "react";
+
+export function Wallet() {
+  const [mode, setMode] = useState("testnet");
+
+  const balances = {
+    testnet: { pi: 314.159, powa: 50 },
+    mainnet: { pi: 0.0, powa: 0.0 },
+  };
+
+  const current = balances[mode];
+
+  return (
+    <section className="wallet">
+      <h2>💳 Wallet ({mode.toUpperCase()})</h2>
+      <p>Pi Balance: {current.pi} π</p>
+      <p>POWA Tokens: {current.powa}</p>
+      <button onClick={() => setMode(mode === "testnet" ? "mainnet" : "testnet")}>
+        Switch Mode
+      </button>
+    </section>
+  );
+}
