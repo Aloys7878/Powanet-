@@ -1,0 +1,29 @@
+import React, { useState } from "react";
+
+export default function Rewards({ user, mode }) {
+  const [staked, setStaked] = useState(10);
+  const [balance, setBalance] = useState(314.159);
+  const [refCode] = useState("POWA-"+Math.random().toString(36).slice(2,9).toUpperCase());
+
+  const stakeMore = () => { setStaked(s=>s+1); setBalance(b=>b-1); alert("Staked 1 π (demo)"); };
+  const claimReferral = () => { setBalance(b=>b+5); alert("Claimed 5 π (demo)"); };
+
+  return (
+    <div style={{padding:12, background:"#fff", borderRadius:12, boxShadow:"0 6px 18px rgba(0,0,0,0.06)"}}>
+      <h3>Wallet & Rewards (demo)</h3>
+      <div>Balance: {balance.toFixed(3)} π</div>
+      <div>Staked: {staked} π</div>
+      <div style={{marginTop:8, display:"flex", gap:8}}>
+        <button onClick={stakeMore} style={{padding:8, background:"#007bff", color:"#fff", border:"none", borderRadius:8}}>Stake +1</button>
+        <button onClick={claimReferral} style={{padding:8, background:"#28a745", color:"#fff", border:"none", borderRadius:8}}>Claim Referral +5π</button>
+      </div>
+
+      <div style={{marginTop:12}}>
+        <small>Referral Code: <strong>{refCode}</strong></small>
+      </div>
+      <div style={{marginTop:8}}>
+        <small>Mode: {mode} (Test/Main simulation)</small>
+      </div>
+    </div>
+  );
+}
