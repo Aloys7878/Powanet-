@@ -1,0 +1,8 @@
+// pages/api/ai.js
+export default async function handler(req, res) {
+  // NOTE: Replace with real OpenAI call or your demo API.
+  const { prompt, mode } = req.body || {};
+  // Simple demo reply - for production call OpenAI / your provider
+  const demoReply = `EGO (demo ${mode}): I heard "${prompt}". I can help with Health, Payments, Maps, and Networks.`;
+  return res.status(200).json({ reply: demoReply });
+}
