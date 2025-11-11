@@ -1,0 +1,12 @@
+// Example: use axios to call OpenAI - keep key in ENV
+import axios from "axios";
+export default async function handler(req,res){
+  const { prompt } = req.body;
+  const key = process.env.OPENAI_KEY;
+  const r = await axios.post("https://api.openai.com/v1/chat/completions", {
+    model: "gpt-4o-mini",
+    messages: [{role:"user", content: prompt}]
+  }, { headers:{ Authorization: `Bearer ${key}` }});
+  const reply = r.data.choices[0].message.content;
+  res.json({ reply });
+}
