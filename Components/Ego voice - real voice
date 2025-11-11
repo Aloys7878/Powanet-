@@ -1,0 +1,80 @@
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+
+export default function EgoVoice({ user, mode }) {
+  const [messages, setMessages] = useState([
+    { id: 0, from: "EGO", text: "Welcome to POWANET EGO Voice — say hello or press Speak." }
+  ]);
+  const [input, setInput] = useState("");
+  const recogRef = useRef(null);
+
+  // Text-to-speech
+  const speak = (text) => {
+    if (!("speechSynthesis" in window)) return alert("TTS not supported");
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 1;
+    window.speechSynthesis.speak(u);
+  };
+
+  // Speech-to-text start
+  const startListen = () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return alert("SpeechRecognition not supported in this browser.");
+    const r = new SR();
+    r.lang = "en-US";
+    r.interimResults = false;
+    r.onresult = (e) => {
+      const t = e.results[0][0].transcript;
+      sendMessage(t);
+    };
+    r.onerror = (e) => console.error("recog error", e);
+    r.start();
+    recogRef.current = r;
+  };
+
+  const stopListen = () => {
+    recogRef.current?.stop();
+  };
+
+  const sendMessage = async (text) => {
+    if (!text || !text.trim()) return;
+    const userMsg = { id: messages.length+1, from: user.email || "You", text };
+    setMessages(prev => [...prev, userMsg]);
+    setInput("");
+    // call local api proxy -> /api/ai
+    try {
+      const res = await axios.post("/api/ai", { prompt: text, mode });
+      const reply = res.data.reply || "EGO could not reply.";
+      setMessages(prev => [...prev, { id: prev.length+2, from: "EGO", text: reply }]);
+      speak(reply);
+    } catch (err) {
+      console.error(err);
+      const errTxt = "EGO: AI error.";
+      setMessages(prev => [...prev, { id: prev.length+2, from:"EGO", text: errTxt }]);
+      speak(errTxt);
+    }
+  };
+
+  useEffect(()=> { speak("Welcome to POWANET EGO Voice assistant."); }, []);
+
+  return (
+    <div style={{background: "#fff", borderRadius:12, padding:12}}>
+      <h3>EGO Voice Assistant</h3>
+      <div style={{maxHeight:220, overflow:"auto", background:"#f6f9ff", padding:8, borderRadius:8}}>
+        {messages.map((m)=>(
+          <div key={m.id} style={{marginBottom:8}}>
+            <strong>{m.from}:</strong> <span>{m.text}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style={{display:"flex", gap:8, marginTop:8}}>
+        <input value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Type message..." style={{flex:1,padding:10,borderRadius:8}} />
+        <button onClick={()=>sendMessage(input)} style={{padding:"10px 12px", background:"#007bff", color:"#fff", border:"none", borderRadius:8}}>Send</button>
+        <button onMouseDown={startListen} onMouseUp={stopListen} style={{padding:"10px 12px", background:"#00c853", color:"#fff", border:"none", borderRadius:8}}>🎤 Hold to speak</button>
+      </div>
+    </div>
+  );
+}
