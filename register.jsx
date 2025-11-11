@@ -20,3 +20,15 @@ export default function Register() {
     </div>
   );
 }
+export function LoginScreen() {
+  return (
+    <div style={{ textAlign: "center", padding: "40px" }}>
+      <h2>🔐 POWANET Login</h2>
+      <input type="text" placeholder="Pi ID" style={{ padding: 8, margin: 8 }} />
+      <input type="email" placeholder="Email" style={{ padding: 8, margin: 8 }} />
+      <button style={{ padding: 10, marginTop: 12, background: "#007bff", color: "white" }}>
+        Login
+      </button>
+    </div>
+  );
+}
