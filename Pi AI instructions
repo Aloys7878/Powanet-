@@ -1,0 +1,7 @@
+if (typeof window !== "undefined") {
+  window.__PI_AI_INSTRUCTIONS__ = `
+  POWANET Quantum v3.8: global AI + blockchain app with EGO voice, Testnet/Mainnet,
+  25 smart networks, wallet + rewards, Pi Connect ready. Use clean UI, dark/light theme,
+  quantum encryption, multilingual voice, and optimize for mobile-first live testing.
+  `;
+}
