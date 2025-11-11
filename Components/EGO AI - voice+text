@@ -24,3 +24,18 @@ export function EgoChat() {
     </section>
   );
 }
+function EgoVoice(text) {
+  const synth = window.speechSynthesis;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "en-US";
+  synth.speak(utter);
+}
+
+export function EgoAssistant() {
+  const handleSpeak = () => EgoVoice("Hello! I am your EGO Assistant. How can I help you today?");
+  return (
+    <button onClick={handleSpeak}>
+      🎤 Talk to EGO
+    </button>
+  );
+}
