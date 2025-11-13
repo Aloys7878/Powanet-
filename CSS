@@ -1,0 +1,11 @@
+<style>
+body {background:#050a10;color:#fff;font-family:Poppins,sans-serif;margin:0;padding:0;text-align:center;}
+.country {background:#0f1b28;margin:6px;border-radius:12px;padding:8px;}
+.flag {font-size:30px;}
+.bar {background:#222;height:6px;border-radius:5px;margin-top:4px;}
+.fill {background:linear-gradient(90deg,#00c6ff,#0072ff);height:6px;border-radius:5px;}
+#rewards {background:#111b25;padding:10px;border-radius:10px;margin:10px;}
+button {background:#0072ff;color:#fff;border:none;border-radius:8px;padding:6px 10px;margin-top:6px;}
+</style>
+<div id="world"></div>
+<div id="rewards"></div>
