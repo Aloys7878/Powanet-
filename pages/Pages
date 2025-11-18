@@ -1,0 +1,37 @@
+// pages/index.jsx
+import React from "react";
+import NetworkManager from "../components/NetworkManager";
+import WalletPanel from "../components/WalletPanel";
+import EgoChat from "../components/EgoChat";
+import MediaEngine from "../components/MediaEngine";
+
+export default function Home() {
+  const onSelectNetwork = (name) => {
+    alert(`Network selected: ${name} — run tests or open detail view.`);
+  };
+
+  return (
+    <div className="page-root">
+      <header className="topbar">
+        <div className="brand">POWANET v4 (Quantum)</div>
+      </header>
+      <main className="layout">
+        <aside className="left">
+          <WalletPanel />
+          <MediaEngine />
+        </aside>
+        <section className="center">
+          <NetworkManager onSelect={onSelectNetwork} />
+        </section>
+        <aside className="right">
+          <EgoChat />
+        </aside>
+      </main>
+      <style jsx>{`
+        .layout{ display:grid; grid-template-columns: 1fr 2fr 1fr; gap:12px; padding:12px }
+        @media(max-width:900px){ .layout{ grid-template-columns:1fr; } }
+        .topbar{ padding:12px; background: linear-gradient(90deg,#012, #034); color:white; font-weight:700 }
+      `}</style>
+    </div>
+  );
+}
