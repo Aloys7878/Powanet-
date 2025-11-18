@@ -1,0 +1,66 @@
+// components/EgoChat.jsx
+import React, { useEffect, useRef, useState } from "react";
+
+export default function EgoChat() {
+  const [messages, setMessages] = useState([{id:0, from:'EGO', text:'Welcome to EGO — say hello.'}]);
+  const [input, setInput] = useState("");
+  const recognizingRef = useRef(null);
+
+  const speak = (text, lang='en-US') => {
+    if(!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    window.speechSynthesis.speak(u);
+  };
+
+  const send = async (text) => {
+    if(!text) return;
+    setMessages(prev=>[...prev, {id: prev.length+1, from:'You', text}]);
+    setInput("");
+    const res = await fetch("/api/ai", { method:"POST", body: JSON.stringify({prompt:text}), headers: {'Content-Type':'application/json'}});
+    const json = await res.json();
+    const reply = json.reply || "EGO couldn't reply.";
+    setMessages(prev=>[...prev, {id: prev.length+2, from:'EGO', text:reply}]);
+    // auto-speak (detect browser language)
+    const lang = navigator.language || 'en-US';
+    speak(reply, lang);
+  };
+
+  const startListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SpeechRecognition){ alert("SpeechRecognition not supported"); return; }
+    const r = new SpeechRecognition();
+    r.lang = navigator.language || 'en-US';
+    r.onresult = (e) => send(e.results[0][0].transcript);
+    r.onerror = ()=>{};
+    r.start();
+    recognizingRef.current = r;
+  };
+
+  const stopListening = () => recognizingRef.current && recognizingRef.current.stop();
+
+  return (
+    <div className="ego-chat">
+      <h4>EGO Assistant</h4>
+      <div className="msgs" aria-live="polite">
+        {messages.map(m=> <div key={m.id} className={m.from==='EGO'?'ego':'you'}><strong>{m.from}:</strong> {m.text}</div>)}
+      </div>
+      <div className="compose">
+        <input value={input} onChange={e=>setInput(e.target.value)} placeholder="Ask EGO..." onKeyDown={e=> e.key==='Enter' && send(input)} />
+        <button onClick={()=>send(input)}>Send</button>
+        <button onClick={startListening}>🎙️</button>
+        <button onClick={stopListening}>■</button>
+      </div>
+      <style jsx>{`
+        .ego-chat{ padding:10px; border-radius:10px; background:linear-gradient(180deg,#001219,#001827); color:#d9fbff}
+        .msgs{ max-height:200px; overflow:auto; margin-bottom:8px}
+        .ego{ color:#bff; margin:6px 0}
+        .you{ color:#fff; margin:6px 0}
+        input{ flex:1; padding:8px; border-radius:6px; border:none}
+        .compose{ display:flex; gap:6px}
+        button{ padding:8px 10px; border-radius:6px; background:#06f; color:white; border:none}
+      `}</style>
+    </div>
+  )
+}
