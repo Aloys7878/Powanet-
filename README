@@ -1,0 +1,9 @@
+POWANET v4 Quick Deploy:
+1. Add components in this order: lib/powaConfig.js, lib/security.js
+2. Add API stubs: /api/gcv.js, /api/ai.js
+3. Add components: NetworkManager.jsx, WalletPanel.jsx, EgoChat.jsx, MediaEngine.jsx, ModeToggle.jsx
+4. Replace pages/index.jsx with the Home wiring snippet.
+5. Upload public/assets images used by MediaEngine.
+6. Commit each file separately and preview after each commit.
+7. Use ModeToggle to switch Testnet/Mainnet.
+8. Replace API stubs with real endpoints (OpenAI, GCV oracle, Pi wallet) later.
