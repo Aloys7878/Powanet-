@@ -1,0 +1,13 @@
+// /api/gcv.js
+export default function handler(req, res) {
+  // Simulated oracle response. Replace with real oracle endpoint later.
+  const gcv = 314159.00;
+  const poaUSD = 25.00;
+  res.status(200).json({
+    success: true,
+    gcv,
+    pi_usd: gcv,
+    poa_usd: poaUSD,
+    timestamp: Date.now()
+  });
+}
