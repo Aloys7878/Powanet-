@@ -1,0 +1,30 @@
+// components/MediaEngine.jsx
+import React from "react";
+
+const sample = [
+  {name: "HealthNet", src: "/public/assets/health.jpg"},
+  {name: "EcoNet", src: "/public/assets/eco.jpg"},
+  {name: "FinNet", src: "/public/assets/finance.jpg"}
+];
+
+export default function MediaEngine(){
+  return (
+    <div className="media-engine">
+      <h4>Original Media</h4>
+      <div className="row">
+        {sample.map(s=>(
+          <div key={s.name} className="card">
+            <img src={s.src} alt={s.name} />
+            <div className="label">{s.name}</div>
+          </div>
+        ))}
+      </div>
+      <style jsx>{`
+        .row{ display:flex; gap:10px}
+        .card{ width:120px; text-align:center}
+        img{ width:100%; height:80px; object-fit:cover; border-radius:8px}
+        .label{ margin-top:6px; font-size:13px}
+      `}</style>
+    </div>
+  );
+}
