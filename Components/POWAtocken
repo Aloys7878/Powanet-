@@ -1,0 +1,11 @@
+// lib/powaConfig.js
+export const POWA_CONFIG = {
+  appName: "POWANET v4 Quantum",
+  networksDefault: 25,
+  expandTo: 100,
+  gcvRate: 314159.00,           // USD per π (simulated; update via /api/gcv)
+  defaultPoaPriceUSD: 25.00,    // simulated POA price (changeable)
+  supportedLanguages: ["en","fr","sw","zh","hi","es","ar"],
+  testnetMode: true,
+  mainnetMode: false
+};
