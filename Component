@@ -1,0 +1,22 @@
+// components/ModeToggle.jsx
+import React, { useState } from "react";
+import { POWA_CONFIG } from "../lib/powaConfig";
+
+export default function ModeToggle(){
+  const [test, setTest] = useState(POWA_CONFIG.testnetMode);
+  const toggle = () => {
+    setTest(t=>!t);
+    // You can persist setting by calling /api/settings later
+    alert(`Mode changed to ${!test ? "Testnet (safe)" : "Mainnet (live)"}`);
+  }
+  return (
+    <div className="mode-toggle">
+      <div>Mode: <strong>{test ? "Testnet (Simulated)" : "Mainnet (Live)"}</strong></div>
+      <button onClick={toggle}>{test ? "Switch to Mainnet" : "Switch to Testnet"}</button>
+      <style jsx>{`
+        .mode-toggle{ padding:8px; color:#dff}
+        button{ margin-left:12px; padding:6px 8px; background:#08f; border-radius:6px; color:white; border:none}
+      `}</style>
+    </div>
+  );
+}
