@@ -1,0 +1,8 @@
+// lib/security.js
+export const SECURITY = {
+  encryption: "AES-512",
+  quantumFirewall: true,
+  autosave: true,
+  crashProtect: true,
+  aiThreatDetection: true
+};
