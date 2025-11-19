@@ -1,0 +1,16 @@
+const express = require("express");
+const router = express.Router();
+
+router.get("/status", (req,res)=>{
+  res.json({system:"POWANET",status:"online"});
+});
+
+router.get("/balances/:user", (req,res)=>{
+  res.json({
+    user: req.params.user,
+    pi: "5.28 π",
+    poa: "890,400 POA"
+  });
+});
+
+module.exports = router;
