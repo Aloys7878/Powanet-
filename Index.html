@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>POWANET v4 — Quantum Global (Demo)</title>
+  <meta name="description" content="POWANET v4 — Quantum Global: demo UI (Testnet/Mainnet simulation) with EGO voice/text AI assistant, POA token panel, 25 networks" />
+  <style>
+    /* -------------------------
+       Basic Reset & Variables
+       ------------------------- */
+    :root{
+      --bg:#081224; --card:#0f1724; --muted:#98a0b3; --accent:#00d1ff; --accent-2:#00ffa6;
+      --glass: rgba(255,255,255,0.03);
+      --success:#28c76f; --danger:#ff6b6b;
+      --text:#e6eef8;
+    }
+    [data-theme="light"]{
+      --bg:#f3f7fb; --card:#ffffff; --muted:#5b677a; --accent:#0f9bff; --accent-2:#16c784; --glass: rgba(0,0,0,0.03); --text:#0b1724;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{background:linear-gradient(180deg,var(--bg),#061124); color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    .app {max-width:1100px;margin:18px auto;padding:12px;}
+    header.top{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 8px;background:var(--card);border-radius:10px;box-shadow: 0 6px 18px rgba(2,6,23,0.6);}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo {width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#001;box-shadow:0 6px 18px rgba(0,0,0,0.4)}
+    .brand h1{font-size:16px;margin:0}
+    .controls{display:flex;gap:8px;align-items:center}
+    button.btn{background:var(--accent);color:#001;border:none;padding:8px 12px;border-radius:8px;font-weight:600}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:8px 10px;border-radius:8px}
+    .row{display:grid;grid-template-columns:1fr 360px;gap:12px;margin-top:12px}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03)); padding:12px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+    .hero{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:10px}
+    .balances{display:flex;gap:10px;flex-wrap:wrap}
+    .card{background:var(--glass);padding:10px;border-radius:10px;min-width:120px}
+    .net-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .net{padding:10px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.015), transparent);display:flex;gap:8px;align-items:center;cursor:pointer}
+    .net img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+    .net .meta{flex:1}
+    .net .meta h4{margin:0;font-size:14px}
+    .net .meta p{margin:0;font-size:12px;color:var(--muted)}
+    .net.off{opacity:0.45}
+    .controls .small{font-size:12px;color:var(--muted)}
+    .chat{display:flex;flex-direction:column;height:440px}
+    .chat .messages{flex:1;overflow:auto;padding:8px;border-radius:8px;background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent)}
+    .msg{margin:6px 0;padding:8px;border-radius:10px;max-width:85%}
+    .msg.me{background:#0b2740;color:var(--text);margin-left:auto}
+    .msg.eg{background:#0a2a1f;color:var(--text)}
+    .input-row{display:flex;gap:8px;margin-top:8px}
+    input[type="text"]{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)}
+    .small-muted{font-size:12px;color:var(--muted)}
+    .net-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .toggle{display:inline-flex;align-items:center;gap:8px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03)}
+    .footer{margin-top:12px;font-size:12px;color:var(--muted)}
+    /* responsive */
+    @media (max-width:880px){
+      .row{grid-template-columns:1fr; }
+      .net-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="app" id="appRoot">
+    <header class="top" role="banner">
+      <div class="brand">
+        <div class="logo">POA</div>
+        <div>
+          <h1>POWANET v4 — Quantum Global</h1>
+          <div class="small-muted">Connecting People • Nature • Intelligence</div>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="small-muted" id="modeLabel">Mode: <b id="modeText">Testnet</b></div>
+        <div class="toggle">
+          <label for="themeSwitch">Dark</label>
+          <input id="themeSwitch" type="checkbox" checked aria-label="Toggle theme" />
+        </div>
+        <button id="activateBtn" class="btn">Activate</button>
+      </div>
+    </header>
+
+    <div class="row">
+      <!-- LEFT -->
+      <div>
+        <section class="panel hero" id="heroPanel">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <h2 style="margin:0">Global Snapshot</h2>
+              <div class="small-muted">Live demo — Testnet / Mainnet simulation</div>
+            </div>
+            <div class="small-muted">Pioneers: <b id="pioneerCount">60,000,000</b></div>
+          </div>
+
+          <div class="balances" style="margin-top:10px">
+            <div class="card">
+              <div style="font-size:12px;color:var(--muted)">Pi (π)</div>
+              <div style="font-weight:700;font-size:18px" id="piBalance">314,159.26 π</div>
+              <div class="small-muted">$ <span id="piUSD">314159</span> / π (GCV)</div>
+            </div>
+            <div class="card">
+              <div style="font-size:12px;color:var(--muted)">POA Tokens</div>
+              <div style="font-weight:700;font-size:18px" id="poaBalance">1,250 POA</div>
+              <div class="small-muted">Market Value: $ <span id="poaUSD">10892.5</span></div>
+            </div>
+            <div class="card">
+              <div style="font-size:12px;color:var(--muted)">Networks Online</div>
+              <div style="font-weight:700;font-size:18px" id="netCount">25</div>
+              <div class="small-muted">Testnet ready • Mainnet simulated</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h3 style="margin:0">Networks (click to open)</h3>
+            <div class="small-muted">Status: <span id="netStatus">All systems nominal</span></div>
+          </div>
+
+          <div class="net-grid" id="networkGrid" style="margin-top:8px">
+            <!-- JS will populate networks -->
+          </div>
+
+          <div class="net-actions" style="margin-top:10px">
+            <button id="runTests" class="ghost">Run Network Tests</button>
+            <button id="openMap" class="ghost">Open Global Map</button>
+            <button id="restoreBtn" class="ghost">System Restore</button>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:12px">
+          <h3 style="margin:0">EGO Assistant — Voice + Text</h3>
+          <div class="small-muted">Speak or type. EGO auto-detects language and replies. (Demo)</div>
+          <div class="chat" style="margin-top:8px">
+            <div class="messages" id="messages">
+              <div class="msg eg">EGO: 🌐 Welcome to POWANET. I am EGO — your AI assistant. Say "hello".</div>
+            </div>
+            <div class="input-row">
+              <input id="chatInput" type="text" placeholder="Type a message..." />
+              <button id="sendBtn" class="btn">Send</button>
+              <button id="voiceBtn" class="ghost">🎤 Voice</button>
+            </div>
+            <div class="small-muted" style="margin-top:8px">EGO Mode: <span id="egoMode">Simulated</span></div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT -->
+      <aside>
+        <div class="panel">
+          <h3 style="margin:0">POA Economy</h3>
+          <div class="small-muted">GCV: <b>$ <span id="gcvRate">314159</span></b> (1 π = GCV)</div>
+          <div style="margin-top:10px">
+            <div style="display:flex;gap:8px;align-items:center">
+              <button id="stakeBtn" class="btn">Stake π</button>
+              <button id="claimBtn" class="ghost">Claim Rewards</button>
+            </div>
+            <div style="margin-top:10px" class="small-muted">Staking APY: <b id="apy">12.5%</b></div>
+          </div>
+
+          <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:12px 0" />
+
+          <h4 style="margin:0">Wallet</h4>
+          <div class="small-muted">Connect: <button id="connectWallet" class="ghost">Connect Pi Wallet</button></div>
+          <div style="margin-top:8px" class="small-muted">Recent Activity:</div>
+          <ul id="activity" style="padding-left:16px;margin-top:6px">
+            <li>+125 π • Global Network</li>
+            <li>-50 POA • Marketplace</li>
+          </ul>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h4 style="margin:0">System Control</h4>
+          <div class="small-muted">Testnet / Mainnet</div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="toggleNetwork" class="btn">Switch to Mainnet</button>
+            <button id="publishBtn" class="ghost">Publish (Preview)</button>
+          </div>
+          <div style="margin-top:10px" class="small-muted">Autosave: <span id="autosave">On</span></div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h4 style="margin:0">Quick Links</h4>
+          <ul style="padding-left:16px">
+            <li>Networks Manager</li>
+            <li>Reward Engine</li>
+            <li>Security Center</li>
+            <li>Developer / API Keys</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="footer small-muted">POWANET v4 • Demo build • Use in Testnet mode first • Replace demo endpoints with real APIs when ready.</div>
+  </div>
+
+  <!-- ---------------------------
+       App JavaScript
+       --------------------------- -->
+  <script>
+  /************************************************************************
+   * Anti-BlackScreen + Protection
+   ************************************************************************/
+  (function antiBlackScreen(){
+    document.addEventListener("DOMContentLoaded", () => {
+      const root = document.getElementById('appRoot');
+      root.style.visibility = "visible";
+      root.style.opacity = "1";
+      // block accidental hide attempts by injected scripts
+      window._POWANET_STOP_HIDE = true;
+      console.log("POWANET Anti-BlackScreen Activated");
+    });
+  })();
+
+  /************************************************************************
+   * Data (networks, placeholders)
+   ************************************************************************/
+  const NETWORKS = [
+    {id:'health', name:'HealthNet', status:'online', color:'#28a745', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2328a745"/><text x="10" y="46" font-size="14" fill="white">HealthNet</text></svg>'},
+    {id:'econet', name:'EcoNet', status:'online', color:'#20c997', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2320c997"/><text x="10" y="46" font-size="14" fill="white">EcoNet</text></svg>'},
+    {id:'edunet', name:'EduNet', status:'updating', color:'#6f42c1', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%236f42c1"/><text x="10" y="46" font-size="14" fill="white">EduNet</text></svg>'},
+    {id:'agrinet', name:'AgriNet', status:'online', color:'#ffc107', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23ffc107"/><text x="10" y="46" font-size="14" fill="%23000">AgriNet</text></svg>'},
+    {id:'finnet', name:'FinNet', status:'online', color:'#007bff', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23007bff"/><text x="10" y="46" font-size="14" fill="white">FinNet</text></svg>'},
+    {id:'govnet', name:'GovNet', status:'offline', color:'#dc3545', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23dc3545"/><text x="10" y="46" font-size="14" fill="white">GovNet</text></svg>'},
+    {id:'technet', name:'TechNet', status:'online', color:'#17a2b8', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2317a2b8"/><text x="10" y="46" font-size="14" fill="white">TechNet</text></svg>'},
+    {id:'tradenet', name:'TradeNet', status:'online', color:'#e83e8c', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23e83e8c"/><text x="10" y="46" font-size="14" fill="white">TradeNet</text></svg>'},
+    {id:'energynet', name:'EnergyNet', status:'online', color:'#ff8c00', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23ff8c00"/><text x="10" y="46" font-size="14" fill="white">EnergyNet</text></svg>'},
+    {id:'citynet', name:'CityNet', status:'online', color:'#6c757d', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%236c757d"/><text x="10" y="46" font-size="14" fill="white">CityNet</text></svg>'},
+    {id:'transnet', name:'TransNet', status:'online', color:'#fd7e14', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23fd7e14"/><text x="10" y="46" font-size="14" fill="white">TransNet</text></svg>'},
+    {id:'waternet', name:'WaterNet', status:'online', color:'#1e90ff', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%231e90ff"/><text x="10" y="46" font-size="14" fill="white">WaterNet</text></svg>'},
+    {id:'foodnet', name:'FoodNet', status:'online', color:'#808000', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23808000"/><text x="10" y="46" font-size="14" fill="white">FoodNet</text></svg>'},
+    {id:'safenet', name:'SafeNet', status:'online', color:'#343a40', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23343a40"/><text x="10" y="46" font-size="14" fill="white">SafeNet</text></svg>'},
+    {id:'comnet', name:'ComNet', status:'updating', color:'#5bc0de', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%235bc0de"/><text x="10" y="46" font-size="14" fill="white">ComNet</text></svg>'},
+    {id:'biznet', name:'BizNet', status:'online', color:'#28a745', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2328a745"/><text x="10" y="46" font-size="14" fill="white">BizNet</text></svg>'},
+    {id:'artnet', name:'ArtNet', status:'online', color:'#ff00ff', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23ff00ff"/><text x="10" y="46" font-size="14" fill="white">ArtNet</text></svg>'},
+    {id:'faithnet', name:'FaithNet', status:'online', color:'#9370db', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%239370db"/><text x="10" y="46" font-size="14" fill="white">FaithNet</text></svg>'},
+    {id:'medianet', name:'MediaNet', status:'online', color:'#ffd700', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%23ffd700"/><text x="10" y="46" font-size="14" fill="%23000">MediaNet</text></svg>'},
+    {id:'buildnet', name:'BuildNet', status:'online', color:'#20b2aa', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2320b2aa"/><text x="10" y="46" font-size="14" fill="white">BuildNet</text></svg>'},
+    {id:'airnet', name:'AirNet', status:'online', color:'#00bfff', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2300bfff"/><text x="10" y="46" font-size="14" fill="white">AirNet</text></svg>'},
+    {id:'seanet', name:'SeaNet', status:'online', color:'#0077be', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%230077be"/><text x="10" y="46" font-size="14" fill="white">SeaNet</text></svg>'},
+    {id:'aihub', name:'AIHub', status:'online', color:'#4b0082', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%234b0082"/><text x="10" y="46" font-size="14" fill="white">AIHub</text></svg>'},
+    {id:'cryptonet', name:'CryptoNet', status:'updating', color:'#20b2aa', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2320b2aa"/><text x="10" y="46" font-size="14" fill="white">CryptoNet</text></svg>'},
+    {id:'peacenet', name:'PeaceNet', status:'online', color:'#00a6ff', photo:'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><rect rx="12" width="120" height="80" fill="%2300a6ff"/><text x="10" y="46" font-size="14" fill="white">PeaceNet</text></svg>'},
+  ];
+
+  /************************************************************************
+   * App State & Utilities
+   ************************************************************************/
+  let state = {
+    mode: 'testnet', // or mainnet
+    piBalance: 314159.26,
+    poaBalance: 1250,
+    gcv: 314159,
+    autosave: true,
+    egoEndpoint: null, // replace with real /api/ai when ready
+    networks: JSON.parse(JSON.stringify(NETWORKS)),
+  };
+
+  function $(sel){return document.querySelector(sel)}
+  function renderNetworks(){
+    const grid = document.getElementById('networkGrid');
+    grid.innerHTML = '';
+    state.networks.forEach(net=>{
+      const div = document.createElement('button');
+      div.className = 'net' + (net.status!=='online' ? ' off' : '');
+      div.setAttribute('data-id', net.id);
+      div.innerHTML = `
+         <img src="${net.photo}" alt="${net.name}" />
+         <div class="meta">
+           <h4>${net.name}</h4>
+           <p>${net.status} • ${net.id}</p>
+         </div>
+      `;
+      div.onclick = ()=> openNetwork(net);
+      grid.appendChild(div);
+    });
+    $('#netCount').innerText = state.networks.length;
+  }
+
+  function openNetwork(net){
+    // Simulate network open: show overlay modal (simple alert for mobile)
+    const detail = `${net.name} — status: ${net.status}\n\nActions:\n• Run Test\n• Open Dashboard\n• View Services`;
+    alert(detail);
+  }
+
+  /************************************************************************
+   * EGO Chat (text + voice) - simulated or proxy to endpoint
+   ************************************************************************/
+  const messagesEl = $('#messages');
+  function addMessage(text, who='ego'){
+    const div = document.createElement('div');
+    div.className = 'msg ' + (who==='me' ? 'me' : 'eg');
+    div.innerText = (who==='me' ? 'You: ' : 'EGO: ') + text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function getEgoResponse(text){
+    // If an endpoint is configured, call it. Otherwise simulate.
+    if(state.egoEndpoint){
+      try{
+        const res = await fetch(state.egoEndpoint, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:text})});
+        const j = await res.json();
+        return j.reply || j.text || 'EGO: (no reply)';
+      }catch(e){
+        console.error('EGO endpoint error', e);
+        return 'EGO: error contacting AI server (simulated reply)';
+      }
+    }
+    // simple simulated AI for demo
+    const lower = text.toLowerCase();
+    if(lower.includes('hello')||lower.includes('hi')) return "Hello — I am EGO. Ask me about networks, wallets, or testnet status.";
+    if(lower.includes('health')) return "HealthNet connects hospitals & AI triage. Want a hospital near you?";
+    if(lower.includes('pay')||lower.includes('payment')) return "I can simulate Pi payments. How much would you like to send?";
+    if(lower.includes('map')) return "Opening global map... (demo)";
+    if(lower.includes('price')||lower.includes('gcv')) return `GCV Rate: 1 π = $${state.gcv}`;
+    return "I'm learning — I can help with networks, wallets, staking, and demos.";
+  }
+
+  $('#sendBtn').addEventListener('click', async ()=>{
+    const t = $('#chatInput').value.trim(); if(!t) return;
+    addMessage(t,'me'); $('#chatInput').value='';
+    const reply = await getEgoResponse(t);
+    addMessage(reply,'ego');
+    speak(reply);
+  });
+
+  $('#chatInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ $('#sendBtn').click(); } });
+
+  // Voice start/stop (uses browser SpeechRecognition)
+  let recog = null;
+  $('#voiceBtn').addEventListener('click', ()=>{
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR){ alert('Voice recognition not supported in this browser.'); return; }
+    if(!recog){
+      recog = new SR(); recog.lang='en-US'; recog.interimResults=false;
+      recog.onresult = async (ev)=>{ const text = ev.results[0][0].transcript; addMessage(text,'me'); const r = await getEgoResponse(text); addMessage(r,'ego'); speak(r); };
+      recog.onerror = (e)=>{ console.log('recog error', e); addMessage('Voice error','ego'); recog=null; };
+      recog.onend = ()=>{ recog=null; };
+      recog.start();
+      $('#voiceBtn').innerText = '🎙️ Listening...';
+    } else {
+      recog.stop();
+      $('#voiceBtn').innerText = '🎤 Voice';
+    }
+  });
+
+  // Speech synthesis (EGO voice)
+  function speak(text){
+    if(!('speechSynthesis' in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }
+
+  /************************************************************************
+   * Interaction: toggles, activation, simulate tests and restore
+   ************************************************************************/
+  $('#themeSwitch').addEventListener('change', (e)=>{
+    document.body.setAttribute('data-theme', e.target.checked ? 'dark' : 'light');
+  });
+
+  $('#toggleNetwork').addEventListener('click', ()=>{
+    if(state.mode==='testnet'){ state.mode='mainnet'; $('#modeText').innerText='Mainnet'; $('#toggleNetwork').innerText='Switch to Testnet'; }
+    else { state.mode='testnet'; $('#modeText').innerText='Testnet'; $('#toggleNetwork').innerText='Switch to Mainnet'; }
+    // Visual hint
+    addMessage(`Switched to ${state.mode}`,'ego');
+  });
+
+  $('#activateBtn').addEventListener('click', ()=> runActivation());
+  async function runActivation(){
+    $('#activateBtn').disabled=true; $('#activateBtn').innerText='Activating...';
+    // simulate progressive activation
+    const steps = ['Restoring networks','Syncing countries','Loading images','Starting EGO AI','Enabling Testnet','Finalizing'];
+    for(let i=0;i<steps.length;i++){
+      await sleep(700);
+      $('#netStatus').innerText = steps[i] + '...';
+    }
+    await sleep(500);
+    $('#netStatus').innerText = 'All systems active';
+    addMessage('System activation complete. Welcome to POWANET v4.','ego');
+    $('#activateBtn').innerText='Activated';
+    $('#activateBtn').classList.add('ghost');
+  }
+
+  $('#runTests').addEventListener('click', async ()=>{
+    addMessage('Running network tests (simulated)...','ego');
+    for(const n of state.networks){
+      await sleep(120);
+      if(n.status==='online') addMessage(`${n.name}: OK`, 'ego');
+      else addMessage(`${n.name}: ${n.status} (simulated)`, 'ego');
+    }
+    addMessage('All tests complete (simulated).','ego');
+  });
+
+  $('#restoreBtn').addEventListener('click', async ()=>{
+    if(!confirm('Execute full restore? This is a simulated restore (no data lost). Continue?')) return;
+    addMessage('Starting system restore (simulated)...','ego');
+    await sleep(600);
+    addMessage('Restore: Images ✓ Countries ✓ Currencies ✓ Networks ✓', 'ego');
+    $('#netStatus').innerText = 'Restore complete';
+  });
+
+  $('#openMap').addEventListener('click', ()=>{
+    alert('Opening Global Map (demo). Replace with real map integration (Mapbox or other) when ready.');
+  });
+
+  $('#stakeBtn').addEventListener('click', ()=>{
+    addMessage('Staking 100 π... (simulated) — success. POA reward granted.','ego');
+    state.poaBalance += 10;
+    $('#poaBalance').innerText = `${state.poaBalance} POA`;
+  });
+
+  $('#claimBtn').addEventListener('click', ()=>{
+    addMessage('Claimed daily reward: +1 POA (simulated).','ego');
+    state.poaBalance += 1;
+    $('#poaBalance').innerText = `${state.poaBalance} POA`;
+  });
+
+  $('#connectWallet').addEventListener('click', ()=>{
+    addMessage('Connecting to Pi Wallet... (demo).','ego');
+    alert('Demo: Pi Wallet connect simulated. Replace with Pi wallet SDK for real integration.');
+  });
+
+  $('#publishBtn').addEventListener('click', ()=>{
+    alert('Publish preview: The app will be published (demo). Use Pi App Studio Publish button to go live.');
+  });
+
+  function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+  /************************************************************************
+   * Autosave heartbeat (so Pi App Studio content is preserved often)
+   ************************************************************************/
+  (function autosave(){
+    if(!state.autosave) return;
+    setInterval(()=> {
+      // minimal heartbeat: store draft in localStorage (Pi App Studio might save this in its own system)
+      try{
+        localStorage.setItem('powanet_v4_draft', JSON.stringify({ts:Date.now(),state}));
+        console.log('POWANET draft saved');
+        // also update UI small indicator
+        $('#autosave').innerText = 'On';
+      }catch(e){}
+    }, 5500); // every 5.5s
+  })();
+
+  /************************************************************************
+   * Initialization
+   ************************************************************************/
+  function init(){
+    $('#piBalance').innerText = `${state.piBalance} π`;
+    $('#poaBalance').innerText = `${state.poaBalance} POA`;
+    $('#piUSD').innerText = `${state.gcv}`;
+    $('#poaUSD').innerText = `${(state.poaBalance * (state.gcv/ state.piBalance)).toFixed(2)}`;
+    renderNetworks();
+  }
+  init();
+
+  /************************************************************************
+   * Utility: replace network images with real originals (developer instruction)
+   * To replace: call setNetworkImage('health', 'https://yourcdn/path/photo.jpg')
+   ************************************************************************/
+  function setNetworkImage(id, url){
+    const net = state.networks.find(n=>n.id===id);
+    if(!net) return false;
+    net.photo = url;
+    renderNetworks();
+    return true;
+  }
+  window.setNetworkImage = setNetworkImage;
+
+  /************************************************************************
+   * EXPORTS for debugging in browser console
+   ************************************************************************/
+  window.POWANET = { state, renderNetworks, setNetworkImage, addMessage, speak };
+
+  </script>
+</body>
+</html>
