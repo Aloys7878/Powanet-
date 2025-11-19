@@ -4,3 +4,41 @@
   display: block !important;
   transition: opacity 0.3s ease-in-out;
 }
+/* POWANET FULL JS SYSTEM */
+
+/* 1. Loading → Dashboard Transition */
+document.addEventListener("DOMContentLoaded", () => {
+
+  setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
+    const dash = document.getElementById("dashboard");
+    dash.style.display = "block";
+    dash.style.opacity = "1";
+    dash.style.visibility = "visible";
+  }, 1000);
+
+});
+
+/* 2. Animated Online Status */
+setInterval(() => {
+  const s = document.getElementById("status");
+  s.style.opacity = (s.style.opacity === "1") ? "0.4" : "1";
+}, 700);
+
+/* 3. Anti-Black Screen Protection (Safe Version) */
+document.addEventListener("DOMContentLoaded", () => {
+  const dash = document.getElementById("dashboard");
+
+  if (!dash) return;
+
+  function forceShow(){
+    dash.style.visibility = "visible";
+    dash.style.opacity = "1";
+    dash.style.display = "block";
+  }
+
+  forceShow();
+  setInterval(forceShow, 500);
+
+  console.log("POWANET Anti-Black-Screen Protection ACTIVE");
+});
