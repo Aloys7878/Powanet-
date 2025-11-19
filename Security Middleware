@@ -1,0 +1,7 @@
+const powanetShield = (req, res, next) => {
+  res.setHeader("X-POWANET-Security", "Active");
+  res.setHeader("X-Powered-By", "POWANET-Core");
+  next();
+};
+
+module.exports = powanetShield;
