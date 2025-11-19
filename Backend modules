@@ -1,0 +1,14 @@
+module.exports = {
+  token: "POA",
+  supply: "Unlimited Dynamic by POWANET",
+  network: "Pi Blockchain Layer",
+  fees: {
+    send: 0,
+    receive: 0,
+    staking: 0
+  },
+  staking: {
+    enabled: true,
+    reward: "0.8% daily auto compounded"
+  }
+};
