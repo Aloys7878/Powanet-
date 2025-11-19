@@ -1,0 +1,6 @@
+#dashboard {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+  transition: opacity 0.3s ease-in-out;
+}
