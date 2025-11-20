@@ -1,0 +1,41 @@
+.pn-network-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.pn-network {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+
+.pn-network img {
+  width: 52px;
+  height: 52px;
+}
+
+.pn-network h4 {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #fff;
+}
+
+.online {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.offline {
+  color: #ff4444;
+  font-weight: bold;
+}
+
+.update {
+  color: #ffd700;
+  font-weight: bold;
+}
