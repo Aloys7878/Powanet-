@@ -1,0 +1,154 @@
+<!-- POWANET Global Networks (Professional UI) -->
+<div class="pn-network-grid">
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/health.png" />
+    <h4>HealthNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/planet-earth.png" />
+    <h4>EcoNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/graduation-cap.png" />
+    <h4>EduNet</h4>
+    <span class="update">UPDATING</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/tractor.png" />
+    <h4>AgriNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/bank-card.png" />
+    <h4>FinNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/government.png" />
+    <h4>GovNet</h4>
+    <span class="offline">OFFLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/electronics.png" />
+    <h4>TechNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/department.png" />
+    <h4>TradeNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/wind-turbine.png" />
+    <h4>EnergyNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/city-buildings.png" />
+    <h4>CityNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/bus.png" />
+    <h4>TransNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/water.png" />
+    <h4>WaterNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/ingredients.png" />
+    <h4>FoodNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/security-checked.png" />
+    <h4>SafeNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/commerce.png" />
+    <h4>ComNet</h4>
+    <span class="update">UPDATING</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/store.png" />
+    <h4>BizNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/palette.png" />
+    <h4>ArtNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/pray.png" />
+    <h4>FaithNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/tv.png" />
+    <h4>MediaNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/crane.png" />
+    <h4>BuildNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/airport.png" />
+    <h4>AirNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/ship.png" />
+    <h4>SeaNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/artificial-intelligence.png" />
+    <h4>AIHub</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/cryptocurrency.png" />
+    <h4>CryptoNet</h4>
+    <span class="update">UPDATING</span>
+  </div>
+
+  <div class="pn-network">
+    <img src="https://img.icons8.com/color/96/olive-branch.png" />
+    <h4>PeaceNet</h4>
+    <span class="online">ONLINE</span>
+  </div>
+
+</div>
