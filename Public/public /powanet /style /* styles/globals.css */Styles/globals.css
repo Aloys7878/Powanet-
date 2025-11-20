@@ -1,0 +1,21 @@
+/* styles/globals.css */
+:root {
+  --bg-dark: #0b1620;
+  --card-dark: #0f2430;
+  --text-dark: #ffffff;
+  --bg-light: #f5f7fa;
+  --card-light: #ffffff;
+  --text-light: #111;
+}
+
+[data-theme="dark"] {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+[data-theme="light"] {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+.app-root { min-height: 100vh; padding-bottom: 40px; }
+button { padding: 8px 10px; border-radius: 8px; border: none; background: #00cccc; color: #000; font-weight:600; }
